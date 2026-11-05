@@ -1,0 +1,37 @@
+<div class="book-detail-container">
+  <a routerLink="/" class="btn-back">← Retour au catalogue</a>
+
+  <div *ngIf="isLoading" class="spinner">Chargement du livre...</div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div class="book-detail-card" *ngIf="!isLoading && book">
+    <div class="book-image">
+      <img 
+        [src]="getBookImageUrl(book.image)" 
+        [alt]="book.title" 
+        class="book-cover"
+        (error)="img.src = 'assets/placeholder-book.png'" 
+        #img
+      />
+    </div>
+
+    <div class="book-content">
+      <h1>{{ book.title }}</h1>
+      <p class="author">Auteur : <strong>{{ book.title }}</strong></p> {{book.image}}
+      <p class="price">{{ book.price }} €</p>
+      
+      <div class="description-section">
+        <h3>Description</h3>
+        <p>{{ book.description }}</p>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" (click)="addToCart()">Ajouter au panier</button>
+        <span *ngIf="addedToCartSuccess" class="success-message">Livre ajouté au panier !</span>
+      </div>
+    </div>
+  </div>
+</div>

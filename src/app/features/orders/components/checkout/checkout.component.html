@@ -1,0 +1,63 @@
+<div class="checkout-container">
+  <h2>Validation de la Commande</h2>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div class="checkout-grid">
+    <!-- Formulaire d'adresse de livraison -->
+    <div class="form-section">
+      <h3>Adresse de livraison</h3>
+      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="street">Rue / Adresse</label>
+          <input id="street" type="text" formControlName="street" class="form-control" placeholder="123 Rue Exemple" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="city">Ville</label>
+            <input id="city" type="text" formControlName="city" class="form-control" placeholder="Tunis" />
+          </div>
+
+          <div class="form-group">
+            <label for="zip_code">Code Postal</label>
+            <input id="zip_code" type="text" formControlName="zip_code" class="form-control" placeholder="1000" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="country">Pays</label>
+            <input id="country" type="text" formControlName="country" class="form-control" placeholder="Tunisie" />
+          </div>
+
+          <div class="form-group">
+            <label for="phone_no">Téléphone</label>
+            <input id="phone_no" type="text" formControlName="phone_no" class="form-control" placeholder="+216 20 000 000" />
+          </div>
+        </div>
+
+        <button type="submit" [disabled]="checkoutForm.invalid || isSubmitting || cartService.items().length === 0" class="btn btn-primary btn-submit">
+          {{ isSubmitting ? 'Traitement en cours...' : 'Confirmer la commande' }}
+        </button>
+      </form>
+    </div>
+
+    <!-- Récapitulatif du Panier -->
+    <div class="summary-section">
+      <h3>Récapitulatif</h3>
+      <div class="summary-items">
+        <div *ngFor="let item of cartService.items()" class="summary-item">
+          <span>{{ item.book.title }} (x{{ item.quantity }})</span>
+          <strong>{{ (+item.book.price * item.quantity).toFixed(2) }} €</strong>
+        </div>
+      </div>
+      <div class="summary-total">
+        <span>Total à payer :</span>
+        <strong>{{ cartService.totalPrice().toFixed(2) }} €</strong>
+      </div>
+    </div>
+  </div>
+</div>

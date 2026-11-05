@@ -1,0 +1,62 @@
+<div class="my-orders-container">
+  <h2>Mes Commandes</h2>
+
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Chargement de vos commandes...</p>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Liste vide -->
+  <div *ngIf="!isLoading && !errorMessage && orders.length === 0" class="empty-state">
+    <p>Vous n'avez pas encore passé de commande.</p>
+    <a routerLink="/" class="btn btn-primary">Découvrir le catalogue</a>
+  </div>
+
+  <!-- Tableau des commandes -->
+  <div *ngIf="!isLoading && orders.length > 0" class="orders-table-wrapper">
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Date</th>
+          <th>Adresse</th>
+          <th>Mode de Paiement</th>
+          <th>Statut</th>
+          <th>Total</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td class="order-code">
+            <strong>{{ order.code }}</strong>
+          </td>
+          <td>{{ order.createAt | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ order.city }}, {{ order.country }}</td>
+          <td>
+            <span class="payment-badge">{{ order.payment_mode }} ({{ order.payment_status }})</span>
+          </td>
+          <td>
+            <span class="status-badge" [ngClass]="getStatusBadgeClass(order.status)">
+              {{ order.status }}
+            </span>
+          </td>
+          <td class="order-total">
+            <strong>{{ order.total_amount }} €</strong>
+          </td>
+          <td>
+            <a [routerLink]="['/orders', order.id]" class="btn btn-outline btn-sm">
+              Voir détail
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="order-detail-container" *ngIf="!isLoading && order">
+  <div class="success-header">
+    <div class="check-icon">✓</div>
+    <h2>Commande Confirmée !</h2>
+    <p>Code de commande : <strong>{{ order.code }}</strong></p>
+  </div>
+
+  <div class="order-card">
+    <div class="order-info-grid">
+      <div>
+        <span>Statut de la commande</span>
+        <strong class="badge-status">{{ order.status }}</strong>
+      </div>
+      <div>
+        <span>Paiement</span>
+        <strong>{{ order.payment_mode }} ({{ order.payment_status }})</strong>
+      </div>
+      <div>
+        <span>Adresse de livraison</span>
+        <strong>{{ order.street }}, {{ order.city }} {{ order.zip_code }}, {{ order.country }}</strong>
+      </div>
+    </div>
+
+    <h3>Articles commandés</h3>
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>Livre</th>
+          <th>Prix</th>
+          <th>Quantité</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of order.orderItems">
+          <td>{{ item.name }}</td>
+          <td>{{ item.price }} €</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ (+item.price * item.quantity).toFixed(2) }} €</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="order-total">
+      <span>Total :</span>
+      <strong>{{ order.total_amount }} €</strong>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a routerLink="/" class="btn btn-primary">Retour à la boutique</a>
+  </div>
+</div>

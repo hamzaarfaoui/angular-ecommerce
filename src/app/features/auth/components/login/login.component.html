@@ -1,0 +1,16 @@
+<div class="auth-container">
+  <h2>Connexion</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label>Nom d'utilisateur ou Email</label>
+      <input type="text" formControlName="login" placeholder="Ex: hamza ou hamza@example.com" />
+    </div>
+    <div>
+      <label>Mot de passe</label>
+      <input type="password" formControlName="password" />
+    </div>
+    <button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
+  </form>
+  <p>Pas encore inscrit ? <a routerLink="/register">Créer un compte</a></p>
+  <p><a routerLink="/forgot-password">Mot de passe oublié?</a></p>
+</div>

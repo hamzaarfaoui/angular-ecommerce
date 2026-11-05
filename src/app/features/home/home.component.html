@@ -1,0 +1,114 @@
+<div class="home-container">
+  <section class="filters-section">
+    <h3>Rechercher et Filtrer</h3>
+    
+    <div class="filters-grid">
+      <!-- Filtre par titre (Keyword) -->
+      <div class="filter-group">
+        <label for="search-title">Mot-clé (Titre)</label>
+        <input
+          id="search-title"
+          type="text"
+          class="form-control"
+          placeholder="Ex: Les misérables..."
+          [(ngModel)]="filters.keyword"
+          (ngModelChange)="onFilterChange()"
+        />
+      </div>
+
+      <!-- Filtre par Catégorie -->
+      <div class="filter-group">
+        <label for="search-category">Catégorie</label>
+        <select
+          id="search-category"
+          class="form-control"
+          [(ngModel)]="filters.category"
+          (ngModelChange)="onFilterChange()"
+        >
+          <option value="">Toutes les catégories</option>
+          <option *ngFor="let cat of categories" [value]="cat.key">
+            {{ cat.label }}
+            </option>
+        </select>
+      </div>
+
+      <!-- Filtres Prix Min & Max -->
+      <div class="filter-group price-group">
+        <label>Prix (€)</label>
+        <div class="price-inputs">
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Min"
+            [(ngModel)]="filters.minPrice"
+            (ngModelChange)="onFilterChange()"
+          />
+          <span>-</span>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Max"
+            [(ngModel)]="filters.maxPrice"
+            (ngModelChange)="onFilterChange()"
+          />
+        </div>
+      </div>
+
+      <!-- Bouton Réinitialiser -->
+      <div class="filter-group reset-group">
+        <button class="btn btn-secondary" (click)="resetFilters()">Réinitialiser</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Liste des Livres -->
+  <section class="books-section">
+    <div *ngIf="isLoading" class="spinner">Chargement des résultats...</div>
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+    <div *ngIf="!isLoading && books.length === 0" class="no-books">
+      Aucun livre ne correspond à votre recherche.
+    </div>
+
+    <div class="books-grid" *ngIf="!isLoading && books.length > 0">
+      <div class="book-card" *ngFor="let book of books" [routerLink]="['/books', book.id]">
+        <div class="book-cover-wrapper">
+            <img 
+                [src]="getBookImageUrl(book.image)" 
+                [alt]="book.title" 
+                class="book-cover"
+                (error)="onImgError($event)"
+            />
+        </div>
+        <div class="book-details">
+          <h3>{{ book.title }}</h3>
+          <p class="description" *ngIf="book.description">{{ book.description }}</p>
+          <div class="book-footer">
+            <span class="price" *ngIf="book.price">{{ book.price }} €</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-container" *ngIf="!isLoading && totalPages > 1">
+      <button 
+        class="btn btn-outline" 
+        [disabled]="currentPage === 1" 
+        (click)="goToPage(currentPage - 1)">
+        ← Précédent
+      </button>
+
+      <span class="page-info">
+        Page <strong>{{ currentPage }}</strong> sur <strong>{{ totalPages }}</strong>
+      </span>
+
+      <button 
+        class="btn btn-outline" 
+        [disabled]="currentPage === totalPages" 
+        (click)="goToPage(currentPage + 1)">
+        Suivant →
+      </button>
+    </div>
+  </section>
+</div>

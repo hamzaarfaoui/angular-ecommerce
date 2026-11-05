@@ -1,0 +1,55 @@
+<div class="cart-container">
+  <h2>Votre Panier</h2>
+
+  <div *ngIf="cartService.items().length === 0" class="empty-cart">
+    <p>Votre panier est vide.</p>
+    <a routerLink="/" class="btn btn-primary">Découvrir nos livres</a>
+  </div>
+
+  <div *ngIf="cartService.items().length > 0" class="cart-content">
+    <table class="cart-table">
+      <thead>
+        <tr>
+          <th>Livre</th>
+          <th>Prix</th>
+          <th>Quantité</th>
+          <th>Total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of cartService.items()">
+          <td class="book-info">
+            <img [src]="getBookImageUrl(item.book.image)" [alt]="item.book.title" (error)="onImgError($event)" class="thumb" />
+            <span>{{ item.book.title }}</span>
+          </td>
+          <td>{{ item.book.price }} €</td>
+          <td>
+            <input 
+              type="number" 
+              min="1" 
+              [value]="item.quantity" 
+              (change)="onQuantityChange(item.book.id, $event)" 
+              class="qty-input"
+            />
+          </td>
+          <td>{{ (+item.book.price * item.quantity).toFixed(2) }} €</td>
+          <td>
+            <button class="btn-danger" (click)="cartService.removeFromCart(item.book.id)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="cart-summary">
+      <h3>Récapitulatif</h3>
+      <p>Nombre d'articles : <strong>{{ cartService.totalCount() }}</strong></p>
+      <p class="total">Total : <strong>{{ cartService.totalPrice().toFixed(2) }} €</strong></p>
+
+      <div class="summary-actions">
+        <button class="btn btn-secondary" (click)="cartService.clearCart()">Vider le panier</button>
+        <a routerLink="/checkout" class="btn btn-success">Passer à la commande</a>
+      </div>
+    </div>
+  </div>
+</div>

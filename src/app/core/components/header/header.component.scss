@@ -1,0 +1,143 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  .logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--secondary);
+    span {
+      color: var(--primary);
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+
+    a {
+      font-weight: 600;
+      color: var(--text-main);
+      transition: var(--transition);
+
+      &:hover, &.active {
+        color: var(--primary);
+      }
+    }
+
+    .btn-sm {
+      padding: 0.45rem 1rem;
+      font-size: 0.85rem;
+    }
+
+    .cart-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: var(--radius-sm);
+      background: var(--primary-light);
+      color: var(--primary);
+
+      .cart-badge {
+        background: var(--primary);
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.15rem 0.5rem;
+        border-radius: 999px;
+      }
+    }
+  }
+}
+
+/* --- MENU DROPDOWN UTILISATEUR --- */
+.user-menu-container {
+  position: relative;
+
+  .user-avatar-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: var(--radius-sm);
+
+    .avatar-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+    }
+
+    .username {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--secondary);
+    }
+  }
+
+  .user-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    width: 180px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    z-index: 200;
+
+    a, .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 0.85rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      color: var(--text-main);
+
+      &:hover {
+        background: var(--primary-light);
+        color: var(--primary);
+      }
+    }
+
+    .logout-btn {
+      color: var(--danger);
+      &:hover {
+        background: #fef2f2;
+        color: var(--danger);
+      }
+    }
+  }
+}

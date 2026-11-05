@@ -1,0 +1,91 @@
+<div class="profile-container">
+  <h2>Mon Profil</h2>
+
+  <div *ngIf="isLoading" class="loading-spinner">Chargement du profil...</div>
+
+  <div *ngIf="!isLoading">
+    <!-- Banner de succès -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+
+    <!-- Banner des erreurs globales (non liées à un champ spécifique) -->
+    <div *ngIf="globalErrors.length > 0" class="alert alert-danger">
+      <ul>
+        <li *ngFor="let err of globalErrors">{{ err }}</li>
+      </ul>
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <!-- Username (Désactivé) -->
+      <div class="form-group">
+        <label for="username">Nom d'utilisateur</label>
+        <input id="username" type="text" formControlName="username" class="form-control" />
+      </div>
+
+      <!-- Email avec gestion d'erreur spécifique Django -->
+      <div class="form-group">
+        <label for="email">Adresse Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="form-control"
+          [class.is-invalid]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched"
+        />
+        <div *ngIf="getServerError('email')" class="invalid-feedback d-block">
+          {{ getServerError('email') }}
+        </div>
+      </div>
+
+      <!-- Prénom -->
+      <div class="form-group">
+        <label for="first_name">Prénom</label>
+        <input
+          id="first_name"
+          type="text"
+          formControlName="first_name"
+          class="form-control"
+          [class.is-invalid]="profileForm.get('first_name')?.invalid && profileForm.get('first_name')?.touched"
+        />
+        <div *ngIf="getServerError('first_name')" class="invalid-feedback d-block">
+          {{ getServerError('first_name') }}
+        </div>
+      </div>
+
+      <!-- Nom -->
+      <div class="form-group">
+        <label for="last_name">Nom</label>
+        <input
+          id="last_name"
+          type="text"
+          formControlName="last_name"
+          class="form-control"
+          [class.is-invalid]="profileForm.get('last_name')?.invalid && profileForm.get('last_name')?.touched"
+        />
+        <div *ngIf="getServerError('last_name')" class="invalid-feedback d-block">
+          {{ getServerError('last_name') }}
+        </div>
+      </div>
+
+      <!-- Mot de passe -->
+      <div class="form-group">
+        <label for="password">Nouveau mot de passe (laisser vide si inchangé)</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="form-control"
+          placeholder="••••••••"
+        />
+        <div *ngIf="getServerError('password')" class="invalid-feedback d-block">
+          {{ getServerError('password') }}
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="profileForm.invalid" class="btn btn-primary">
+        Enregistrer les modifications
+      </button>
+    </form>
+  </div>
+</div>
